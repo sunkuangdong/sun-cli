@@ -1,0 +1,61 @@
+#!/usr/bin/env node
+const figlet = require("figlet")
+const Printer = require('@darkobits/lolcatjs')
+const txt = figlet.textSync("S K D") + "\n" + "孙匡东脚手架"
+const result = Printer.fromString(txt)
+const pro = require("commander")
+const inquirer = require('inquirer');
+const json2ts = require("json2ts");
+
+pro.version(result, "-v,--version")
+pro.option("-i,--init", "项目初始化")
+const bindHandler = {
+    init() {
+        inquirer.prompt([
+            {
+                type: "text",
+                message: "请输入用户文件夹的名称",
+                name: "dirname"
+            },
+            {
+                type: "list",
+                name: "js",
+                massage: "请选择语言",
+                choices: ["ES6", "TypeScript"]
+            }
+        ]).then(answers => {
+            console.log("answers", answers)
+            const dirname = answers.dirname
+
+        })
+    },
+    json2ts(jsonUrl) {
+        console.log("接口地址: ", jsonUrl)
+        const jsonContent = {
+            code: 1,
+            info: {
+                message: "请求成功",
+                data: [{
+                    num: 1,
+                    title: "3号仓库"
+                }]
+            }
+        }
+        const result = json2ts.convert(JSON.stringify(jsonContent));
+        console.log(result);
+        spinner.stop()
+    }
+}
+// 前面是值，后面是参数
+pro.usage("<cmd> [env]")
+    .arguments("<cmd> [env]")
+    .action(function (cmd, otherParams) {
+        const handler = bindHandler[cmd]
+        if (handler) {
+            handler(otherParams)
+        } else {
+            console.log(cmd + " have not, please run: sun --help")
+        }
+    });
+
+pro.parse(process.argv)

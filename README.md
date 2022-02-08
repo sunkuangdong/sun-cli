@@ -3,4 +3,4 @@
 
 ``npm i vue-sun-cli --save``
 
-``vue-sun-cli init``
+``sun init``

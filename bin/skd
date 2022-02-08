@@ -6,11 +6,17 @@ const result = Printer.fromString(txt)
 const pro = require("commander")
 const inquirer = require('inquirer');
 const json2ts = require("json2ts");
+// 获取用户的全路径
+// const userHome = require("user-home");
+const shell = require("shelljs");
+// 下载git
+const downLoad = require("download-git-repo");
+const tempalteUrl = "direct:https://github.com/qiuJinLong/yd-vue-kernel.git"
 
 pro.version(result, "-v,--version")
 pro.option("-i,--init", "项目初始化")
 const bindHandler = {
-    init() {
+    init: function () {
         inquirer.prompt([
             {
                 type: "text",
@@ -25,8 +31,23 @@ const bindHandler = {
             }
         ]).then(answers => {
             console.log("answers", answers)
-            const dirname = answers.dirname
-
+            const _dirname = answers.dirname
+            const _pwd = shell.pwd().stdout
+            const _projectPath = `${_pwd}/${_dirname}`
+            console.log(_projectPath)
+            // 进入用户目录中
+            shell.cd(_pwd)
+            shell.rm("-rf", _projectPath)
+            shell.mkdir(_dirname)
+            // 项目下载到 _projectPath
+            downLoad(tempalteUrl, _projectPath, {clone: true}, err => {
+                if (err) {
+                    console.log(chalk.red("yd-cli 启动异常"), err)
+                } else {
+                    // 变量过滤
+                    shell.sed("-i", "yd-vue-kernel", _dirname, _projectPath + "/package.json")
+                }
+            })
         })
     },
     json2ts(jsonUrl) {

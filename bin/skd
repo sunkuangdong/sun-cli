@@ -31,7 +31,6 @@ const bindHandler = {
                 choices: ["ES6", "TypeScript"]
             }
         ]).then(answers => {
-            console.log(answers)
             // 文件夹名称
             const _dirname = answers.dirname
             // 获取路径
@@ -76,11 +75,60 @@ const bindHandler = {
                 name: "brew",
                 massage: "是否安装 brew",
                 choices: ["Yes", "No"]
+            },
+            {
+                type: "list",
+                name: "nrm",
+                massage: "是否安装 nrm",
+                choices: ["Yes", "No"]
+            },
+            {
+                type: "list",
+                name: "node-version",
+                massage: "安装 node 版本控制工具",
+                choices: ["n", "nvm"]
+            },
+            {
+                type: "list",
+                name: "git",
+                massage: "是否安装 git",
+                choices: ["Yes", "No"]
+            },
+            {
+                type: "list",
+                name: "item2",
+                massage: "是否安装 item2",
+                choices: ["Yes", "No"]
+            },
+            {
+                type: "list",
+                name: "zsh",
+                massage: "是否安装 zsh",
+                choices: ["Yes", "No"]
             }
         ]).then(answers => {
-            console.log("answers", answers)
+            console.log("answers.node-version", answers)
             if(answers.brew === "Yes") {
                 // shell 执行安装命令
+                shell.exec('/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"')
+                shell.exec('brew cleanup -n')
+            }
+            if(answers.nrm === "Yes") {
+                // shell 执行安装命令
+                shell.exec('brew install nrm')
+            }
+            if(answers.node-version) {
+                // shell 执行安装命令
+                shell.exec(`brew install ${answers["node-version"]}`)
+            }
+            if(answers.git === 'Yes'){
+                shell.exec(`brew install git`)
+            }
+            if(answers.item2 === 'Yes'){
+                shell.exec(`brew install git`)
+            }
+            if(answers.zsh === 'Yes'){
+                shell.exec(`brew install git`)
             }
         })
     }

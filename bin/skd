@@ -96,8 +96,8 @@ const bindHandler = {
             },
             {
                 type: "list",
-                name: "item2",
-                massage: "是否安装 item2",
+                name: "iTerm2",
+                massage: "是否安装 iTerm2",
                 choices: ["Yes", "No"]
             },
             {
@@ -124,11 +124,11 @@ const bindHandler = {
             if(answers.git === 'Yes'){
                 shell.exec(`brew install git`)
             }
-            if(answers.item2 === 'Yes'){
-                shell.exec(`brew install git`)
+            if(answers.iTerm2 === 'Yes'){
+                shell.exec(`brew install iTerm2`)
             }
             if(answers.zsh === 'Yes'){
-                shell.exec(`brew install git`)
+                shell.exec('sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"')
             }
         })
     }
